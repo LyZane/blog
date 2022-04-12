@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Zane&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Zane&#39;s Blog">
+<meta property="og:url" content="https://lyzane.github.io/blog/index.html">
+<meta property="og:site_name" content="Zane&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Zane">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/blog/atom.xml" title="Zane's Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/blog/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/blog/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/blog/" id="logo">Zane&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/blog/">Home</a>
+        
+          <a class="main-nav-link" href="/blog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/blog/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Suche"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lyzane.github.io/blog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-md5-vs-sha" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/blog/2022/04/11/md5-vs-sha/" class="article-date">
+  <time class="dt-published" datetime="2022-04-11T13:12:15.000Z" itemprop="datePublished">2022-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/blog/2022/04/11/md5-vs-sha/">MD5 vs SHA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文将搞清楚一个问题：</p>
+<blockquote>
+<p>MD5 与 SHA 两种算法分别合适在什么情况下使用？</p>
+</blockquote>
+<br>
+
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ol>
+<li>如果是防篡改场景，建议使用 MD5，因为它计算快速，摘要长度短。</li>
+<li>如果是防偷窥场景，必须使用 SHA-256 或更大长度的摘要算法。</li>
+<li>为避免彩虹表攻击，必须加盐。</li>
+</ol>
+<br>
+
+<h2 id="摘要长度的差异"><a href="#摘要长度的差异" class="headerlink" title="摘要长度的差异"></a>摘要长度的差异</h2><p>摘要越长，意味着 hash 范围越大，产生碰撞的概率越低，但是更长的摘要通常需要更多的计算时间和储存成本。</p>
+<p>各种算法产生的摘要示例：</p>
+<ul>
+<li><code>MD5:</code> fcd34772920cf22d3e8b9a7466e33e4f</li>
+<li><code>SHA-1:</code> 768725e2f1576b240f82cde819ef91545af6afd1</li>
+<li><code>SHA-256:</code> ff5b185c2eb56587a40eb547945753ce24a165abbc6f7b2b9cc76a665b9dd984</li>
+<li><code>SHA-384:</code> 7e5d3277d43033d9252c932931c83c02329babac271b1e7a14e7a0bfa80e32932b6551eec56727e107f143f2d3ee507f</li>
+<li><code>SHA-512:</code> 54134f6390362cfd748cc28549e98aef0f3403502b0a11558dce9f80f966e862b8fc9177451baeafdaa62a847072350bb6218ef1e32fba3fa6e781d966a14ff3</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>bit</th>
+<th>byte</th>
+<th>char</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>128</td>
+<td>16</td>
+<td>32</td>
+</tr>
+<tr>
+<td>SHA-1</td>
+<td>160</td>
+<td>20</td>
+<td>40</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>256</td>
+<td>32</td>
+<td>64</td>
+</tr>
+<tr>
+<td>SHA-384</td>
+<td>384</td>
+<td>48</td>
+<td>96</td>
+</tr>
+<tr>
+<td>SHA-512</td>
+<td>512</td>
+<td>64</td>
+<td>128</td>
+</tr>
+</tbody></table>
+<br>
+
+<h2 id="计算耗时的差异"><a href="#计算耗时的差异" class="headerlink" title="计算耗时的差异"></a>计算耗时的差异</h2><p>我使用 MacBook Pro (13-inch, M1, 2020) 进行了测试，对一个长度为 36 的字符串进行摘要计算，记录各算法执行百万、千万、亿次的耗时。</p>
+<p>并根据这些结果大概估算了毫秒内计算次数，这样可以比较直观地比对它们的性能。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>1_000_000</th>
+<th>10_000_000</th>
+<th>100_000_000</th>
+<th>次&#x2F;毫秒</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MD5</td>
+<td>196ms</td>
+<td>1637ms</td>
+<td>10441ms</td>
+<td>6929</td>
+</tr>
+<tr>
+<td>SHA-1</td>
+<td>164ms</td>
+<td>1404ms</td>
+<td>11399ms</td>
+<td>7330</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>353ms</td>
+<td>3380ms</td>
+<td>34847ms</td>
+<td>2886</td>
+</tr>
+<tr>
+<td>SHA-384</td>
+<td>382ms</td>
+<td>3849ms</td>
+<td>35902ms</td>
+<td>2666</td>
+</tr>
+<tr>
+<td>SHA-512</td>
+<td>359ms</td>
+<td>3596ms</td>
+<td>35644ms</td>
+<td>2790</td>
+</tr>
+</tbody></table>
+<pre><code>结论：
+1. MD5 与 SHA-1 的性能相当
+2. SHA-256、SHA-384、SHA-512 的性能相当
+</code></pre>
+<p>以下是执行性能测试的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"><span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line"><span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line"><span class="keyword">import</span> java.util.UUID;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Md5VsSha</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> NoSuchAlgorithmException &#123;</span><br><span class="line">        <span class="type">byte</span>[] strBytes = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);</span><br><span class="line">        <span class="type">int</span> <span class="variable">iterations</span> <span class="operator">=</span> <span class="number">1_000_000</span>;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;iterations: &quot;</span> + iterations);</span><br><span class="line"></span><br><span class="line">        String[] algorithms = &#123;<span class="string">&quot;MD5&quot;</span>, <span class="string">&quot;SHA-1&quot;</span>, <span class="string">&quot;SHA-256&quot;</span>, <span class="string">&quot;SHA-384&quot;</span>, <span class="string">&quot;SHA-512&quot;</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (String algorithm : algorithms) &#123;</span><br><span class="line">            <span class="type">long</span> <span class="variable">spend</span> <span class="operator">=</span> run(strBytes, algorithm, iterations);</span><br><span class="line">            System.out.println(algorithm + <span class="string">&quot; spend:&quot;</span> + spend + <span class="string">&quot;ms&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">run</span><span class="params">(<span class="type">byte</span>[] bytes, String algorithm, <span class="type">int</span> iterations)</span> <span class="keyword">throws</span> NoSuchAlgorithmException &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">long</span> <span class="variable">start</span> <span class="operator">=</span> System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; iterations; i++) &#123;</span><br><span class="line">            <span class="type">MessageDigest</span> <span class="variable">digest</span> <span class="operator">=</span> MessageDigest.getInstance(algorithm);</span><br><span class="line">            digest.update(bytes);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> System.currentTimeMillis() - start;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="安全性的差异"><a href="#安全性的差异" class="headerlink" title="安全性的差异"></a>安全性的差异</h2><p>摘要算法通常在安全领域的两个场景中被使用：防篡改、防偷窥。</p>
+<p><strong>防篡改举例：</strong><br>sender 在发布文件的同时发布文件的摘要，receiver 在收到文件后同样对文件进行摘要计算，并与 sender 发布的摘要进行比对，以此判断文件是否为完整的原始文件。</p>
+<p><strong>防偷窥举例：</strong><br>系统中用户登录账号的密码，对其进行 hash 后储存到数据库，这样即便是数据库泄露，储存在数据库中的 hash 串也不会暴露用户的明文密码。</p>
+<br>
+
+<p>在搜索了关于 MD5 与 SHA 算法的攻击方法后，总结出一共有两种攻击方法。</p>
+<p>参照：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/MD5">https://zh.wikipedia.org/wiki/MD5</a></li>
+<li><a target="_blank" rel="noopener" href="https://3.14.by/en/md5">https://3.14.by/en/md5</a></li>
+<li><a target="_blank" rel="noopener" href="https://wikichi.icu/wiki/MD5">https://wikichi.icu/wiki/MD5</a></li>
+</ul>
+<ol>
+<li>使用 GPU 快速生成大量摘要进行碰撞，也就是暴力破解。</li>
+<li>通过数学层面的破解，使得在已知摘要结果的情况下，能够使用普通计算机设备在几秒内找到另一个具有相同摘要的明文。</li>
+</ol>
+<br>
+
+
+<h3 id="攻防"><a href="#攻防" class="headerlink" title="攻防"></a>攻防</h3><pre><code>首先要说明的是，摘要算法是一种信息有损算法，不论原始信息长度是否大于摘要长度，都不可能根据摘要信息还原出明文。
+</code></pre>
+<p>构建一个有意义的明文且与修改前的摘要值相同，这几乎不可能，所以摘要算法在防篡改场景是安全的，攻防主要在防偷窥场景中展开。</p>
+<p>接下来以登录场景为例，攻击者获取到了数据库中的用户名和密码摘要，尝试登录系统，我们推演一下如何进攻与防守。</p>
+<p>这里的攻击是指碰撞攻击，即找到另一个拥有相同摘要的明文，这个新的明文由于与真实密码具有相同的摘要，导致攻击者登录成功。</p>
+<p><strong>【攻·暴力破解】</strong><br>攻击者如果使用暴力破解，以摘要长度相对较短的 MD5 为例，其摘要的可能性有 340282366920938463463374607431768211454 种，按目前较为先进的摘要生成速度 3.5亿&#x2F;秒 计算，最差情况需要 308293802023029亿年。</p>
+<p>考虑到需要储存一些状态来保障不生成重复的摘要，即便是在运气极佳的情况下，也很难在有生之年完成暴力破解，暴力破解失败。</p>
+<p><strong>【攻·彩虹表】</strong><br>由于大家通常使用较短的有意义字符串作为密码，所以攻击者把所有可能的常用字符串全部计算一遍摘要，然后使用在数据库盗取的摘要进行比对，这样可以快速找到原始明文。</p>
+<p>这种攻击方式被称之为彩虹表攻击，有些提供 MD5 查询的网站目前储存的键值对已经达到90万亿条，覆盖了几乎全部的常用密码，攻击成功。</p>
+<p><strong>【防·组合 hash】</strong><br>彩虹表攻击手段基于“常用”这个特点极大地缩小了暴力破解的范围，所以我们可以相应地采取一些措施让这些密码变得不常见。</p>
+<ul>
+<li>md5(sha1(password))</li>
+<li>md5(md5(salt) + md5(password))</li>
+<li>sha1(sha1(password))</li>
+<li>sha1(str_rot13(password + salt))</li>
+<li>md5(sha1(md5(md5(password) + sha1(password)) + md5(password)))</li>
+</ul>
+<p>使用组合 hash，或者将这些 hash 方式迭代很多次，如果攻击者不知道系统使用的哪种哈希函数，那么也就很难预先为这种组合构造出彩虹表，于是破解起来会花费更多的时间。</p>
+<p>但这就安全了吗？</p>
+<p>根据“柯克霍夫原则”：</p>
+<blockquote>
+<p>即使密码系统的任何细节已为人悉知，只要密匙未泄漏，它也应该是安全的。</p>
+</blockquote>
+<p>有时候攻击者很容易就能拿到源码，例如免费或开源的软件，甚至内部人员在了解算法的情况下实施攻击。</p>
+<p>即便不了解源码，通过系统中取出的一些密码与哈希值对应关系，很容易反向推导出加密算法。</p>
+<br>
+
+<p><strong>【防·加盐】</strong><br>如果在明文中掺入随机字符串之后再进行摘要，由于其原始明文在掺杂之后足够随机，所以加盐可以抵御彩虹表攻击。</p>
+<p>关于盐值，有三个方面需要注意：</p>
+<ol>
+<li>盐的长度不能太短，太短的盐复杂度不够，建议使用与摘要长度相同或更长的盐。</li>
+<li>盐值不能复用，尽量每次 hash 掺入不同的盐。</li>
+<li>盐值要足够随机，可以考虑每次都生成一个 UUID 作为盐。</li>
+</ol>
+<p><strong>【攻·数学破解】</strong></p>
+<p>攻防进展到现在，暴力破解路线已经完败，轮到数学破解路线登场。</p>
+<p>MD5 和 SHA-1 最初由中国的王小云院士破解，后来中国科学院的谢涛和冯登国优化了 MD5 破解方案，攻击者在已知摘要的情况下，使用普通计算机在几秒内即可计算出另一个具有相同摘要的 MD5 明文。</p>
+<p>这意味着之前使用的组合 hash 和加盐的防御手段通通失效，好在我们还有 SHA-256、SHA-384、SHA-512 可以使用。</p>
+<p><strong>【总结】</strong></p>
+<ol>
+<li>如果是防篡改场景，建议使用 MD5，因为它计算快速，摘要长度短。</li>
+<li>如果是防偷窥场景，必须使用 SHA-256 或更大长度的摘要算法。</li>
+<li>为避免彩虹表攻击，必须加盐。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lyzane.github.io/blog/2022/04/11/md5-vs-sha/" data-id="cl1vt1tty0000k8yrfgcnd3a0" data-title="MD5 vs SHA" class="article-share-link">Teilen</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2022/04/">四月 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/blog/2022/04/11/md5-vs-sha/">MD5 vs SHA</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zane<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/blog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/blog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/blog/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/blog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/blog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
